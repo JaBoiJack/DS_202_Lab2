@@ -1,0 +1,88 @@
+---
+title: "individual2"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+#1
+
+```{r, echo=FALSE}
+#*(1)
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+library(ggplot2)
+View(choco)
+
+ratings <- choco$Rating
+boxplot(ratings)
+hist(ratings)
+mean(ratings)
+#*The mean of the ratings is 3.18
+#*The boxplot shows the average being around 3.25
+#*The histogram shows an average being a little more than 3
+#*There are outliers between 1 and 2
+```
+
+#2
+
+```{r, echo=FALSE}
+#*(2)
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+library(ggplot2)
+numOfReports <- data.frame(table(choco$Date))
+View(numOfReports)
+barplot(numOfReports$Freq, names.arg = numOfReports$Var1)
+#*The most ratings were done in the year 2015
+#*The number of ratings increased from 2006 to 2015 then started to decline
+```
+
+#3
+
+```{r, echo=FALSE}
+#*(3)
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+library(ggplot2)
+cacaoAndRatings <- data.frame(choco$Rating, choco$Cocoa_Percent)
+View(cacaoAndRatings)
+plot(cacaoAndRatings)
+#*There does not seem to be any correlation between cacao percentage and the rating of the chocolate bar
+```
+
+#4
+
+```{r, echo=FALSE}
+#*(4)
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+library(ggplot2)
+char1AndRatings <- data.frame(choco$Characteristics1, choco$Rating)
+a <- char1AndRatings[char1AndRatings$choco.Rating >= 4,]
+b <- char1AndRatings[char1AndRatings$choco.Rating >= 3.5 & char1AndRatings$choco.Rating <= 3.9,]
+c <- char1AndRatings[char1AndRatings$choco.Rating >= 3 & char1AndRatings$choco.Rating <= 3.49,]
+d <- char1AndRatings[char1AndRatings$choco.Rating >= 2 & char1AndRatings$choco.Rating < 2.9,]
+e <- char1AndRatings[char1AndRatings$choco.Rating >= 1 & char1AndRatings$choco.Rating <= 1.9,]
+
+aT <- data.frame(table(a))
+bT <- data.frame(table(b))
+cT <- data.frame(table(c))
+dT <- data.frame(table(d))
+eT <- data.frame(table(e))
+
+View(eT)
+View(dT)
+View(cT)
+View(bT)
+View(aT)
+
+char1AndRatingsT <- table(char1AndRatings)
+View(char1AndRatingsT)
+
+```
+
+#5
+
+```{r, echo=FALSE}
+```
+
