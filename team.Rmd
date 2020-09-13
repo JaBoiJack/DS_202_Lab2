@@ -1,0 +1,80 @@
+---
+title: "Collaboration Document"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Binaya Shrestha
+
+**Company on rating**
+
+I separated the ratings just like in #4
+
+Soma is the most common in the 4 - 5 rating
+
+Soma is most common in the 3.5 - 4 rating
+
+Soma is most common in the 3 - 3.49 rating
+
+Hotel Chocolat (Coppeneur) is most common in the 2 - 2.9 rating
+
+The most popular rated chocolate is made by Soma
+
+But Soma also makes some mediocre chocolate as well
+
+```{r, echo=FALSE}
+#*(5.2)
+par(mar=c(11,4,4,4))
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+companyAndRatings <- data.frame(choco$Company, choco$Rating)
+a <- companyAndRatings[companyAndRatings$choco.Rating >= 4,]
+b <- companyAndRatings[companyAndRatings$choco.Rating >= 3.5 & companyAndRatings$choco.Rating <= 3.9,]
+c <- companyAndRatings[companyAndRatings$choco.Rating >= 3 & companyAndRatings$choco.Rating <= 3.49,]
+d <- companyAndRatings[companyAndRatings$choco.Rating >= 2 & companyAndRatings$choco.Rating < 2.9,]
+e <- companyAndRatings[companyAndRatings$choco.Rating >= 1 & companyAndRatings$choco.Rating <= 1.9,]
+
+aT <- data.frame(table(a))
+bT <- data.frame(table(b))
+cT <- data.frame(table(c))
+dT <- data.frame(table(d))
+eT <- data.frame(table(e))
+
+aTop <- aT[order(aT$choco.Rating, decreasing = TRUE),]
+aTopR <- aT[aT$choco.Rating == aTop$choco.Rating[1],]
+aTopR <- aTopR[order(aTopR$Freq, decreasing = TRUE),]
+aTop5 <- aTopR[1:5,]
+aTop5
+
+bTop <- bT[order(bT$choco.Rating, decreasing = TRUE),]
+bTopR <- bT[bT$choco.Rating == bTop$choco.Rating[1],]
+bTopR <- bTopR[order(bTopR$Freq, decreasing = TRUE),]
+bTop5 <- bTopR[1:5,]
+bTop5
+
+cTop <- cT[order(cT$choco.Rating, decreasing = TRUE),]
+cTopR <- cT[cT$choco.Rating == cTop$choco.Rating[1],]
+cTopR <- cTopR[order(cTopR$Freq, decreasing = TRUE),]
+cTop5 <- cTopR[1:5,]
+cTop5
+
+dTop <- dT[order(dT$choco.Rating, decreasing = TRUE),]
+dTopR <- dT[dT$choco.Rating == dTop$choco.Rating[1],]
+dTopR <- dTopR[order(dTopR$Freq, decreasing = TRUE),]
+dTop5 <- dTopR[1:5,]
+dTop5
+
+eTop <- eT[order(eT$choco.Rating, decreasing = TRUE),]
+eTopR <- eT[eT$choco.Rating == eTop$choco.Rating[1],]
+eTopR <- eTopR[order(eTopR$Freq, decreasing = TRUE),]
+eTop5 <- eTopR[1:5,]
+eTop5
+
+barplot(aTop5$Freq, names.arg = aTop5$choco.Company, main='Ratings 4 - 5', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(bTop5$Freq, names.arg = bTop5$choco.Company, main='Ratings 3.5 - 3.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(cTop5$Freq, names.arg = cTop5$choco.Company, main='Ratings 3 - 3.49', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(dTop5$Freq, names.arg = dTop5$choco.Company, main='Ratings 2 - 2.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(eTop5$Freq, names.arg = eTop5$choco.Company, main='Ratings 1 - 1.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+```
