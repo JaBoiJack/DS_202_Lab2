@@ -8,50 +8,76 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-#1
+## 1
+
+The mean of the ratings is 3.18
+
+The boxplot shows the average being around 3.25
+
+The histogram shows an average being a little more than 3
+
+There are outliers between 1 and 2
+
+This shows that most ratings are around the 3.1 to 3.5 range which is around "Recommended" and "Highly Recommended" on the scale
+
+There are very few that are rated low around 1 to 2
 
 ```{r, echo=FALSE}
 #*(1)
 choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
 library(ggplot2)
-View(choco)
 
 ratings <- choco$Rating
 boxplot(ratings)
 hist(ratings)
-mean(ratings)
-#*The mean of the ratings is 3.18
-#*The boxplot shows the average being around 3.25
-#*The histogram shows an average being a little more than 3
-#*There are outliers between 1 and 2
+paste(c("Mean of ratings = ",mean(ratings)), sep = '')
 ```
 
-#2
+## 2
+
+The most ratings were done in the year 2015
+
+The number of ratings increased from 2006 to 2015 then started to decline
 
 ```{r, echo=FALSE}
 #*(2)
 choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
 library(ggplot2)
 numOfReports <- data.frame(table(choco$Date))
-View(numOfReports)
 barplot(numOfReports$Freq, names.arg = numOfReports$Var1)
-#*The most ratings were done in the year 2015
-#*The number of ratings increased from 2006 to 2015 then started to decline
+
 ```
 
-#3
+## 3
+
+There does not seem to be any correlation between cacao percentage and the rating of the chocolate bar
+
+We can see that almost all ratings have a chocolate that has high cocoa percentage
+
+There is no clear distinction of any trend lines in this scatter plot
 
 ```{r, echo=FALSE}
 #*(3)
 choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
 library(ggplot2)
 cacaoAndRatings <- data.frame(choco$Rating, choco$Cocoa_Percent)
-View(cacaoAndRatings)
 plot(cacaoAndRatings)
-#*There does not seem to be any correlation between cacao percentage and the rating of the chocolate bar
+
 ```
 
-#4
+## 4
+
+I separated the ratings into their respective categories (1 - 1.9, 2 - 2.9, 3 - 3.49, etc.), took the top rated, and took the top 5 that occurred most often
+
+Creamy is the most common in the 4 - 5 rating
+
+Creamy is most common in the 3.5 - 4 rating
+
+Sandy is most common in the 3 - 3.49 rating
+
+Sandy is most common in the 2 - 2.9 rating
+
+We can say that top rating chocolates usually have Creamy as their first characteristic
 
 ```{r, echo=FALSE}
 #*(4)
@@ -70,19 +96,180 @@ cT <- data.frame(table(c))
 dT <- data.frame(table(d))
 eT <- data.frame(table(e))
 
-View(eT)
-View(dT)
-View(cT)
-View(bT)
-View(aT)
+aTop <- aT[order(aT$choco.Rating, decreasing = TRUE),]
+aTopR <- aT[aT$choco.Rating == aTop$choco.Rating[1],]
+aTopR <- aTopR[order(aTopR$Freq, decreasing = TRUE),]
+aTop5 <- aTopR[1:5,]
+aTop5
 
-char1AndRatingsT <- table(char1AndRatings)
-View(char1AndRatingsT)
+bTop <- bT[order(bT$choco.Rating, decreasing = TRUE),]
+bTopR <- bT[bT$choco.Rating == bTop$choco.Rating[1],]
+bTopR <- bTopR[order(bTopR$Freq, decreasing = TRUE),]
+bTop5 <- bTopR[1:5,]
+bTop5
 
+cTop <- cT[order(cT$choco.Rating, decreasing = TRUE),]
+cTopR <- cT[cT$choco.Rating == cTop$choco.Rating[1],]
+cTopR <- cTopR[order(cTopR$Freq, decreasing = TRUE),]
+cTop5 <- cTopR[1:5,]
+cTop5
+
+dTop <- dT[order(dT$choco.Rating, decreasing = TRUE),]
+dTopR <- dT[dT$choco.Rating == dTop$choco.Rating[1],]
+dTopR <- dTopR[order(dTopR$Freq, decreasing = TRUE),]
+dTop5 <- dTopR[1:5,]
+dTop5
+
+eTop <- eT[order(eT$choco.Rating, decreasing = TRUE),]
+eTopR <- eT[eT$choco.Rating == eTop$choco.Rating[1],]
+eTopR <- eTopR[order(eTopR$Freq, decreasing = TRUE),]
+eTop5 <- eTopR[1:5,]
+eTop5
+
+barplot(aTop5$Freq, names.arg = aTop5$choco.Characteristics1, main='Ratings 4 - 5', ylab='Freq', space = 1.5)
+barplot(bTop5$Freq, names.arg = bTop5$choco.Characteristics1, main='Ratings 3.5 - 3.9', ylab='Freq', space = 1.5)
+barplot(cTop5$Freq, names.arg = cTop5$choco.Characteristics1, main='Ratings 3 - 3.49', ylab='Freq', space = 1.5)
+barplot(dTop5$Freq, names.arg = dTop5$choco.Characteristics1, main='Ratings 2 - 2.9', ylab='Freq', space = 1.5)
+barplot(eTop5$Freq, names.arg = eTop5$choco.Characteristics1, main='Ratings 1 - 1.9', ylab='Freq', space = 1.5)
 ```
 
-#5
+## 5
+
+**Bean origin on rating**
+
+I separated the ratings just like in #4
+
+Venezuela is the most common in the 4 - 5 rating
+
+Dominican Republic is most common in the 3.5 - 4 rating
+
+Dominican Republic is most common in the 3 - 3.49 rating
+
+Peru is most common in the 2 - 2.9 rating
+
+The most popular rated chocolate is made from beans from Venezuela with Dominican Republic coming up second
 
 ```{r, echo=FALSE}
+#*(5.1)
+par(mar=c(11,4,4,4))
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv")
+beanOriginAndRatings <- data.frame(choco$Bean_Origin, choco$Rating)
+a <- beanOriginAndRatings[beanOriginAndRatings$choco.Rating >= 4,]
+b <- beanOriginAndRatings[beanOriginAndRatings$choco.Rating >= 3.5 & beanOriginAndRatings$choco.Rating <= 3.9,]
+c <- beanOriginAndRatings[beanOriginAndRatings$choco.Rating >= 3 & beanOriginAndRatings$choco.Rating <= 3.49,]
+d <- beanOriginAndRatings[beanOriginAndRatings$choco.Rating >= 2 & beanOriginAndRatings$choco.Rating < 2.9,]
+e <- beanOriginAndRatings[beanOriginAndRatings$choco.Rating >= 1 & beanOriginAndRatings$choco.Rating <= 1.9,]
+
+aT <- data.frame(table(a))
+bT <- data.frame(table(b))
+cT <- data.frame(table(c))
+dT <- data.frame(table(d))
+eT <- data.frame(table(e))
+
+aTop <- aT[order(aT$choco.Rating, decreasing = TRUE),]
+aTopR <- aT[aT$choco.Rating == aTop$choco.Rating[1],]
+aTopR <- aTopR[order(aTopR$Freq, decreasing = TRUE),]
+aTop5 <- aTopR[1:5,]
+aTop5
+
+bTop <- bT[order(bT$choco.Rating, decreasing = TRUE),]
+bTopR <- bT[bT$choco.Rating == bTop$choco.Rating[1],]
+bTopR <- bTopR[order(bTopR$Freq, decreasing = TRUE),]
+bTop5 <- bTopR[1:5,]
+bTop5
+
+cTop <- cT[order(cT$choco.Rating, decreasing = TRUE),]
+cTopR <- cT[cT$choco.Rating == cTop$choco.Rating[1],]
+cTopR <- cTopR[order(cTopR$Freq, decreasing = TRUE),]
+cTop5 <- cTopR[1:5,]
+cTop5
+
+dTop <- dT[order(dT$choco.Rating, decreasing = TRUE),]
+dTopR <- dT[dT$choco.Rating == dTop$choco.Rating[1],]
+dTopR <- dTopR[order(dTopR$Freq, decreasing = TRUE),]
+dTop5 <- dTopR[1:5,]
+dTop5
+
+eTop <- eT[order(eT$choco.Rating, decreasing = TRUE),]
+eTopR <- eT[eT$choco.Rating == eTop$choco.Rating[1],]
+eTopR <- eTopR[order(eTopR$Freq, decreasing = TRUE),]
+eTop5 <- eTopR[1:5,]
+eTop5
+
+barplot(aTop5$Freq, names.arg = aTop5$choco.Bean_Origin, main='Ratings 4 - 5', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(bTop5$Freq, names.arg = bTop5$choco.Bean_Origin, main='Ratings 3.5 - 3.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(cTop5$Freq, names.arg = cTop5$choco.Bean_Origin, main='Ratings 3 - 3.49', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(dTop5$Freq, names.arg = dTop5$choco.Bean_Origin, main='Ratings 2 - 2.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(eTop5$Freq, names.arg = eTop5$choco.Bean_Origin, main='Ratings 1 - 1.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+```
+
+**Company on rating**
+
+I separated the ratings just like in #4
+
+Soma is the most common in the 4 - 5 rating
+
+Soma is most common in the 3.5 - 4 rating
+
+Soma is most common in the 3 - 3.49 rating
+
+Hotel Chocolat (Coppeneur) is most common in the 2 - 2.9 rating
+
+The most popular rated chocolate is made by Soma
+
+But Soma also makes some mediocre chocolate as well
+
+```{r, echo=FALSE}
+#*(5.2)
+par(mar=c(11,4,4,4))
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv") 
+companyAndRatings <- data.frame(choco$Company, choco$Rating)
+a <- companyAndRatings[companyAndRatings$choco.Rating >= 4,]
+b <- companyAndRatings[companyAndRatings$choco.Rating >= 3.5 & companyAndRatings$choco.Rating <= 3.9,]
+c <- companyAndRatings[companyAndRatings$choco.Rating >= 3 & companyAndRatings$choco.Rating <= 3.49,]
+d <- companyAndRatings[companyAndRatings$choco.Rating >= 2 & companyAndRatings$choco.Rating < 2.9,]
+e <- companyAndRatings[companyAndRatings$choco.Rating >= 1 & companyAndRatings$choco.Rating <= 1.9,]
+
+aT <- data.frame(table(a))
+bT <- data.frame(table(b))
+cT <- data.frame(table(c))
+dT <- data.frame(table(d))
+eT <- data.frame(table(e))
+
+aTop <- aT[order(aT$choco.Rating, decreasing = TRUE),]
+aTopR <- aT[aT$choco.Rating == aTop$choco.Rating[1],]
+aTopR <- aTopR[order(aTopR$Freq, decreasing = TRUE),]
+aTop5 <- aTopR[1:5,]
+aTop5
+
+bTop <- bT[order(bT$choco.Rating, decreasing = TRUE),]
+bTopR <- bT[bT$choco.Rating == bTop$choco.Rating[1],]
+bTopR <- bTopR[order(bTopR$Freq, decreasing = TRUE),]
+bTop5 <- bTopR[1:5,]
+bTop5
+
+cTop <- cT[order(cT$choco.Rating, decreasing = TRUE),]
+cTopR <- cT[cT$choco.Rating == cTop$choco.Rating[1],]
+cTopR <- cTopR[order(cTopR$Freq, decreasing = TRUE),]
+cTop5 <- cTopR[1:5,]
+cTop5
+
+dTop <- dT[order(dT$choco.Rating, decreasing = TRUE),]
+dTopR <- dT[dT$choco.Rating == dTop$choco.Rating[1],]
+dTopR <- dTopR[order(dTopR$Freq, decreasing = TRUE),]
+dTop5 <- dTopR[1:5,]
+dTop5
+
+eTop <- eT[order(eT$choco.Rating, decreasing = TRUE),]
+eTopR <- eT[eT$choco.Rating == eTop$choco.Rating[1],]
+eTopR <- eTopR[order(eTopR$Freq, decreasing = TRUE),]
+eTop5 <- eTopR[1:5,]
+eTop5
+
+barplot(aTop5$Freq, names.arg = aTop5$choco.Company, main='Ratings 4 - 5', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(bTop5$Freq, names.arg = bTop5$choco.Company, main='Ratings 3.5 - 3.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(cTop5$Freq, names.arg = cTop5$choco.Company, main='Ratings 3 - 3.49', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(dTop5$Freq, names.arg = dTop5$choco.Company, main='Ratings 2 - 2.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
+barplot(eTop5$Freq, names.arg = eTop5$choco.Company, main='Ratings 1 - 1.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
 ```
 
