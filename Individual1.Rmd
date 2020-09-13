@@ -1,0 +1,43 @@
+---
+title: "Lab2"
+author: "Jack Langenwalter"
+date: "9/8/2020"
+output: html_document
+---
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv")
+str(choco)
+```
+```{r}
+hist(choco$Rating)
+```
+No outstanding
+```{r}
+boxplot(choco$Rating)
+```
+
+```{r}
+library(ggplot2)
+ggplot(data=choco, aes(x=choco$Date, y=choco$Rating)) + geom_bar(stat="Identity")
+
+```
+
+```{r}
+library(ggplot2)
+library(Hmisc)
+
+ggplot(data=choco, mapping = aes(x=Cocoa_Percent, y=Rating)) + stat_summary(fun.data = mean_sdl, geom = "area")
+
+cor(choco$Rating, choco$Cocoa_Percent)
+t.test(choco$Rating, choco$Cocoa_Percent)
+
+```
+```{r}
+library(ggplot2)
+library(Hmisc)
+averages<-aggregate(Rating ~ Characteristics1, choco, mean) 
+newdata<- averages[order(averages$Rating),]
+tail(newdata)
+newdata[1:10, ]
+```
+
