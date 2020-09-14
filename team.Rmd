@@ -8,7 +8,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## Binaya Shrestha
-
 **Company on rating**
 
 I separated the ratings just like in #4
@@ -78,3 +77,22 @@ barplot(cTop5$Freq, names.arg = cTop5$choco.Company, main='Ratings 3 - 3.49', yl
 barplot(dTop5$Freq, names.arg = dTop5$choco.Company, main='Ratings 2 - 2.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
 barplot(eTop5$Freq, names.arg = eTop5$choco.Company, main='Ratings 1 - 1.9', ylab='Freq', space = 1.5, las=2, cex.names = 0.8)
 ```
+
+## Jack Langenwalter
+## Rating by Bean origin
+## Data shows the worst average ratings for Cocoa Beans are for the beans from Martinique(2.75), Principe(2.75), Puerto Rico(2.75), St. Vincent-Grenadines(2.75), and Ivory Coast(2.80)
+## While the highest rated beans come from Tobago(3.63). Followed by Sao Tome & Principe(3.5), Solomon Islands(3.45), Congo(3.32), and Thailand(3.30)
+```{r}
+choco <- read.csv("https://raw.githubusercontent.com/xdaiISU/ds202materials/master/hwlabs/data/choco.csv")
+str(choco)
+```
+
+```{r}
+library(ggplot2)
+library(Hmisc)
+averages<-aggregate(Rating ~ Bean_Origin, choco, mean) 
+newdata<- averages[order(averages$Rating),]
+head(newdata)
+tail(newdata)
+```
+
